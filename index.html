@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍱 我的美食與旅遊私房口袋 Wiki</title>
+    <!-- 引入 Marked.js 解析器與 GitHub Markdown 樣式庫，實現點擊讀取 Markdown 筆記功能 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+    <style>
+        :root {
+            --bg-color: #fdfbf7;
+            --text-color: #2d3748;
+            --primary-color: #ed8936;
+            --primary-hover: #dd6b20;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #ffffff;
+            border-bottom: 2px solid #feebc8;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1.logo {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #fbd38d;
+        }
+
+        .hero h2 {
+            margin-top: 0;
+            color: #c05621;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 0.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid #edf2f7;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(237, 137, 54, 0.15);
+            border-color: #fbd38d;
+        }
+
+        .card-tag {
+            display: inline-block;
+            background-color: #feebc8;
+            color: #9c4221;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .card h3 {
+            margin: 0.5rem 0;
+            color: var(--text-color);
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: #718096;
+            margin: 0;
+        }
+
+        /* 閱讀器視窗區域 */
+        #doc-view {
+            display: none;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #edf2f7;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #a0aec0;
+            font-size: 0.875rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1 class="logo" onclick="showHome()">🍱 我的美食與旅遊私房口袋 Wiki</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 首頁內容區 -->
+        <div id="home-view">
+            <div class="hero">
+                <h2>歡迎來到私房饕客指南 🌿</h2>
+                <p>這裡記錄了我親身走訪體驗的各地精選美食、巷弄咖啡廳與私房秘境。嚴格遵守品質標準，絕無盲目業配！</p>
+            </div>
+
+            <div class="section-title">📍 精選特色主題口袋筆記</div>
+            
+            <div class="grid">
+                <!-- 卡片 1 -->
+                <div class="card" onclick="loadDoc('docs/taipei-ramen.md')">
+                    <span class="card-tag">台北美食</span>
+                    <h3>🍜 台北必吃拉麵特輯</h3>
+                    <p>精選 3 家台北極致濃郁豚骨與極品雞白湯拉麵名單。</p>
+                </div>
+
+                <!-- 卡片 2 -->
+                <div class="card" onclick="loadDoc('docs/tainan-snacks.md')">
+                    <span class="card-tag">府城旅遊</span>
+                    <h3>🍢 台南精選小吃地圖</h3>
+                    <p>深入台南巷弄！從早吃到晚的傳統古早味與牛肉湯推薦。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 文章內容顯示區 -->
+        <div id="doc-view">
+            <button class="back-btn" onclick="showHome()">← 返回口袋地圖首頁</button>
+            <div id="markdown-content" class="markdown-body"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 美食與旅遊私房口袋 Wiki | Built with AGENTS.md Protocol</p>
+    </footer>
+
+    <script>
+        function showHome() {
+            document.getElementById('home-view').style.display = 'block';
+            document.getElementById('doc-view').style.display = 'none';
+            window.scrollTo(0, 0);
+        }
+
+        function loadDoc(url) {
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error("檔案載入失敗");
+                    return response.text();
+                })
+                .then(markdown => {
+                    document.getElementById('markdown-content').innerHTML = marked.parse(markdown);
+                    document.getElementById('home-view').style.display = 'none';
+                    document.getElementById('doc-view').style.display = 'block';
+                    window.scrollTo(0, 0);
+                })
+                .catch(err => {
+                    alert("無法載入筆記內容，請確認檔案路徑是否正確！");
+                });
+        }
+    </script>
+</body>
+</html>
