@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🍱 我的美食與旅遊私房口袋 Wiki</title>
-    <!-- 引入 Marked.js 解析器與 GitHub Markdown 樣式庫，實現點擊讀取 Markdown 筆記功能 -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
     <style>
         :root {
             --bg-color: #fdfbf7;
@@ -15,150 +12,59 @@
             --primary-hover: #dd6b20;
             --card-bg: #ffffff;
         }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
+            margin: 0; padding: 0; line-height: 1.6;
         }
-
         header {
             background-color: #ffffff;
             border-bottom: 2px solid #feebc8;
             padding: 1.5rem 2rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
         }
-
         .header-content {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1000px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
         h1.logo {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
+            margin: 0; font-size: 1.5rem; color: var(--primary-color); cursor: pointer;
         }
-
-        .container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
         .hero {
             background: linear-gradient(135deg, #fffaf0 0%, #feebc8 100%);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            border: 1px solid #fbd38d;
+            padding: 2rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid #fbd38d;
         }
-
-        .hero h2 {
-            margin-top: 0;
-            color: #c05621;
-        }
-
+        .hero h2 { margin-top: 0; color: #c05621; }
         .section-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            border-left: 4px solid var(--primary-color);
-            padding-left: 0.5rem;
+            font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;
+            border-left: 4px solid var(--primary-color); padding-left: 0.5rem;
         }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
         .card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 1.5rem;
-            border: 1px solid #edf2f7;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
+            background-color: var(--card-bg); border-radius: 10px; padding: 1.5rem;
+            border: 1px solid #edf2f7; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            cursor: pointer; transition: transform 0.2s;
         }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(237, 137, 54, 0.15);
-            border-color: #fbd38d;
-        }
-
+        .card:hover { transform: translateY(-4px); border-color: #fbd38d; }
         .card-tag {
-            display: inline-block;
-            background-color: #feebc8;
-            color: #9c4221;
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
+            background-color: #feebc8; color: #9c4221; font-size: 0.75rem;
+            padding: 0.2rem 0.6rem; border-radius: 20px; font-weight: bold;
         }
-
-        .card h3 {
-            margin: 0.5rem 0;
-            color: var(--text-color);
-        }
-
-        .card p {
-            font-size: 0.9rem;
-            color: #718096;
-            margin: 0;
-        }
-
-        /* 閱讀器視窗區域 */
+        .card h3 { margin: 0.5rem 0; }
+        .card p { font-size: 0.9rem; color: #718096; margin: 0; }
         #doc-view {
-            display: none;
-            background: #ffffff;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border: 1px solid #edf2f7;
+            display: none; background: #ffffff; padding: 2rem; border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #edf2f7;
         }
-
         .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-            transition: background 0.2s;
+            background-color: var(--primary-color); color: white; border: none;
+            padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 1.5rem;
         }
-
-        .back-btn:hover {
-            background-color: var(--primary-hover);
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: #a0aec0;
-            font-size: 0.875rem;
-            margin-top: 4rem;
-        }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { border: 1px solid #e2e8f0; padding: 0.75rem; text-align: left; }
+        th { background-color: #feebc8; color: #7b341e; }
+        footer { text-align: center; padding: 2rem; color: #a0aec0; font-size: 0.875rem; margin-top: 4rem; }
     </style>
 </head>
 <body>
@@ -170,7 +76,7 @@
     </header>
 
     <div class="container">
-        <!-- 首頁內容區 -->
+        <!-- 首頁 -->
         <div id="home-view">
             <div class="hero">
                 <h2>歡迎來到私房饕客指南 🌿</h2>
@@ -180,15 +86,12 @@
             <div class="section-title">📍 精選特色主題口袋筆記</div>
             
             <div class="grid">
-                <!-- 卡片 1 -->
-                <div class="card" onclick="loadDoc('docs/taipei-ramen.md')">
+                <div class="card" onclick="showPage('ramen')">
                     <span class="card-tag">台北美食</span>
                     <h3>🍜 台北必吃拉麵特輯</h3>
                     <p>精選 3 家台北極致濃郁豚骨與極品雞白湯拉麵名單。</p>
                 </div>
-
-                <!-- 卡片 2 -->
-                <div class="card" onclick="loadDoc('docs/tainan-snacks.md')">
+                <div class="card" onclick="showPage('tainan')">
                     <span class="card-tag">府城旅遊</span>
                     <h3>🍢 台南精選小吃地圖</h3>
                     <p>深入台南巷弄！從早吃到晚的傳統古早味與牛肉湯推薦。</p>
@@ -196,10 +99,38 @@
             </div>
         </div>
 
-        <!-- 文章內容顯示區 -->
+        <!-- 內頁閱讀區 -->
         <div id="doc-view">
             <button class="back-btn" onclick="showHome()">← 返回口袋地圖首頁</button>
-            <div id="markdown-content" class="markdown-body"></div>
+            <div id="article-ramen" class="article" style="display:none;">
+                <h1>🍜 台北必吃拉麵特輯</h1>
+                <p><em>身為拉麵愛好者，這份名單收錄了台北真正值得排隊、湯頭極致濃郁且麵體Q彈的私房拉麵店。</em></p>
+                <hr>
+                <h2>推薦店家列表</h2>
+                <table>
+                    <tr><th>店家名稱</th><th>地址 / 捷運站</th><th>推薦必點</th><th>價位區間</th><th>個人評分</th></tr>
+                    <tr><td><b>勝王</b></td><td>台北市中山區（捷運中山站）</td><td>濃厚雞白湯拉麵</td><td>NT$ 300 - 380</td><td>⭐⭐⭐⭐⭐</td></tr>
+                    <tr><td><b>鬼金棒</b></td><td>台北市中山區（捷運台北車站）</td><td>特製辣麻味噌拉麵</td><td>NT$ 260 - 330</td><td>⭐⭐⭐⭐☆</td></tr>
+                    <tr><td><b>柑橘 Shinn</b></td><td>台北市大安區（捷運忠孝敦化站）</td><td>柑橘鹽味鴨湯拉麵</td><td>NT$ 240 - 300</td><td>⭐⭐⭐⭐☆</td></tr>
+                </table>
+                <h2>⚠️ 踩雷與注意事項</h2>
+                <p>1. 勝王與鬼金棒嚴禁解壓縮（人到齊才能排隊）。<br>2. 部分店家僅收現金，前往前請備妥台幣硬幣與鈔票。</p>
+            </div>
+
+            <div id="article-tainan" class="article" style="display:none;">
+                <h1>🍢 台南精選小吃地圖</h1>
+                <p><em>府城台南是美食之都，這份清單精心選出在地人從小吃到大的古早風味！</em></p>
+                <hr>
+                <h2>推薦店家列表</h2>
+                <table>
+                    <tr><th>店家名稱</th><th>地址 / 位置</th><th>推薦必點</th><th>價位區間</th><th>個人評分</th></tr>
+                    <tr><td><b>文章牛肉湯</b></td><td>台南市安平區安平路</td><td>特選溫體牛肉湯</td><td>NT$ 150 - 250</td><td>⭐⭐⭐⭐⭐</td></tr>
+                    <tr><td><b>阿明豬心冬粉</b></td><td>台南市中西區保安路</td><td>豬心冬粉、鴨腳下</td><td>NT$ 60 - 150</td><td>⭐⭐⭐⭐⭐</td></tr>
+                    <tr><td><b>邱家小卷米粉</b></td><td>台南市中西區國華街</td><td>新鮮小卷米粉湯</td><td>NT$ 100 - 120</td><td>⭐⭐⭐⭐☆</td></tr>
+                </table>
+                <h2>⚠️ 踩雷與注意事項</h2>
+                <p>1. 台南小吃口味偏甘甜，不習慣甜鹹口味者請注意。<br>2. 阿明豬心冬粉晚餐時段排隊人潮極多，建議提早前往。</p>
+            </div>
         </div>
     </div>
 
@@ -211,24 +142,21 @@
         function showHome() {
             document.getElementById('home-view').style.display = 'block';
             document.getElementById('doc-view').style.display = 'none';
+            document.getElementById('article-ramen').style.display = 'none';
+            document.getElementById('article-tainan').style.display = 'none';
             window.scrollTo(0, 0);
         }
-
-        function loadDoc(url) {
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) throw new Error("檔案載入失敗");
-                    return response.text();
-                })
-                .then(markdown => {
-                    document.getElementById('markdown-content').innerHTML = marked.parse(markdown);
-                    document.getElementById('home-view').style.display = 'none';
-                    document.getElementById('doc-view').style.display = 'block';
-                    window.scrollTo(0, 0);
-                })
-                .catch(err => {
-                    alert("無法載入筆記內容，請確認檔案路徑是否正確！");
-                });
+        function showPage(type) {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('doc-view').style.display = 'block';
+            if(type === 'ramen') {
+                document.getElementById('article-ramen').style.display = 'block';
+                document.getElementById('article-tainan').style.display = 'none';
+            } else {
+                document.getElementById('article-ramen').style.display = 'none';
+                document.getElementById('article-tainan').style.display = 'block';
+            }
+            window.scrollTo(0, 0);
         }
     </script>
 </body>
